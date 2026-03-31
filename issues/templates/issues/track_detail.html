@@ -1,0 +1,31 @@
+{% extends 'issues/base.html' %}
+{% block content %}
+<section class="page-section center-page">
+    <div class="container card-panel detail-panel">
+        <div class="panel-heading">
+            <h2>Issue Details</h2>
+            <p>Review the latest update for your report and follow the progress timeline.</p>
+        </div>
+        <div class="detail-grid">
+            <div class="detail-card">
+                <h3>{{ issue.category }}</h3>
+                <p>{{ issue.description }}</p>
+                <div class="detail-meta"><strong>Location:</strong> {{ issue.location_name }}</div>
+                <div class="detail-meta"><strong>Status:</strong> {{ issue.status }}</div>
+                <div class="detail-meta"><strong>Assigned department:</strong> {{ issue.assigned_department|default:'Pending assignment' }}</div>
+            </div>
+            <div class="image-card">
+                <h3>Uploaded Image</h3>
+                {% if issue.image %}
+                    <img src="{{ issue.image.url }}" alt="Uploaded issue image" class="issue-image" />
+                {% else %}
+                    <div class="image-empty">
+                        <p>No image was uploaded for this report.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <a class="button button-secondary" href="{% url 'track_issues' %}">Back to Track</a>
+    </div>
+</section>
+{% endblock %}

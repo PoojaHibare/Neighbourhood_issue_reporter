@@ -1,0 +1,22 @@
+{% extends 'issues/base.html' %}
+{% block content %}
+<section class="page-section center-page">
+    <div class="container card-panel auth-panel">
+        <div class="panel-heading">
+            <h2>Admin Login</h2>
+            <p>Enter administrator credentials to manage issue reports.</p>
+        </div>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            {% if error %}
+                <div class="form-error">{{ error }}</div>
+            {% endif %}
+            <label>Username</label>
+            <input type="text" name="username" class="input-field" placeholder="admin" required>
+            <label>Password</label>
+            <input type="password" name="password" class="input-field" placeholder="admin123" required>
+            <button type="submit" class="button button-primary full-width">Sign In</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

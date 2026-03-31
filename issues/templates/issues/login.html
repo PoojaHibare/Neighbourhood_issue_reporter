@@ -1,0 +1,21 @@
+{% extends 'issues/base.html' %}
+{% block content %}
+<section class="page-section center-page">
+    <div class="container card-panel auth-panel">
+        <div class="panel-heading">
+            <h2>Login to your account</h2>
+            <p>Access your dashboard and track issue progress.</p>
+        </div>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <label>Username</label>
+            {{ form.username }}
+            <label>Password</label>
+            {{ form.password }}
+            <button type="submit" class="button button-primary full-width">Login</button>
+        </form>
+        <p class="auth-footer">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'issues/base.html' %}
+{% load static %}
+{% block content %}
+<section class="hero-section">
+    <div class="container home-wrapper">
+        <div class="hero-card">
+            <div class="hero-copy-container">
+                <span class="eyebrow">Community action starts here</span>
+                <h1>Make your neighbourhood better — one report at a time</h1>
+                <p>Submit issues, follow progress,and help make your neighbourhood cleaner,and better maintained.</p>
+                <div class="hero-actions">
+                    <a class="button button-primary" href="{% url 'dashboard' %}">Go to Dashboard</a>
+                    <a class="button button-secondary" href="{% url 'login' %}">Sign In</a>
+                </div>
+            </div>
+            <div class="hero-image-wrapper">
+                <img src="{% static 'D:\Capstoneproject\issues\static\issues\images\home-hero.jpg' %}" alt="Community reporting" class="hero-image">
+            </div>
+        </div>
+        <div class="feature-grid">
+        <div class="feature-card feature-action-card">
+            <h3>Report an issue</h3>
+            <p>Share any problem with one quick form and keep surroundings clean.</p>
+            <a class="button button-sm button-primary" href="{% url 'report_issue' %}">Report</a>
+        </div>
+        <div class="feature-card feature-action-card">
+            <h3>Track your reports</h3>
+            <p>Monitor every report from submission through verification and resolution.</p>
+            <a class="button button-sm button-primary" href="{% url 'track_issues' %}">Track</a>
+        </div>
+    </div>
+    </div>
+</section>
+{% endblock %}

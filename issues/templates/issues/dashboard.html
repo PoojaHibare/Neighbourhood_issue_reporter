@@ -1,0 +1,115 @@
+{% extends 'issues/base.html' %}
+{% block content %}
+<section class="dashboard-page">
+    <div class="dashboard-wrapper">
+        <main class="dashboard-main">
+            <div class="dashboard-topbar">
+                <div class="search-wrapper">
+                    <input type="search" placeholder="Search issues..." />
+                </div>
+                <div class="topbar-actions">
+                    <button class="icon-button" aria-label="Notifications">🔔</button>
+                    <div class="profile-card">
+                        <div class="avatar">U</div>
+                        <div>
+                            <span>Urban Manager</span>
+                            <strong>City Admin</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="welcome-card">
+                <div>
+                    <p class="welcome-label">Welcome back 👋</p>
+                    <h2>Manage and track issues in your neighborhood</h2>
+                </div>
+                <div class="welcome-badge">Overview</div>
+            </div>
+            <div class="summary-grid dashboard-summary-grid">
+                <article class="summary-card blue-card">
+                    <div class="summary-icon">🚧</div>
+                    <div>
+                        <p>Total Reports</p>
+                        <h3>{{ total }}</h3>
+                    </div>
+                </article>
+                <article class="summary-card orange-card">
+                    <div class="summary-icon">❗</div>
+                    <div>
+                        <p>Pending Issues</p>
+                        <h3>{{ pending }}</h3>
+                    </div>
+                </article>
+                <article class="summary-card yellow-card">
+                    <div class="summary-icon">🛠️</div>
+                    <div>
+                        <p>In Progress</p>
+                        <h3>{{ in_progress }}</h3>
+                    </div>
+                </article>
+                <article class="summary-card green-card">
+                    <div class="summary-icon">✅</div>
+                    <div>
+                        <p>Resolved Issues</p>
+                        <h3>{{ resolved }}</h3>
+                    </div>
+                </article>
+            </div>
+            <div class="dashboard-lower-grid single-column">
+                <section class="chart-card">
+                    <div class="card-header">
+                        <h3>Reports Overview</h3>
+                        <span>Current status breakdown</span>
+                    </div>
+                    <canvas id="reportsChart"></canvas>
+                </section>
+            </div>
+            <section class="recent-card">
+                <div class="card-header">
+                    <h3>Recent Reports</h3>
+                    <span>Latest neighborhood issues</span>
+                </div>
+                <div class="recent-table-wrapper">
+                    <table class="recent-table">
+                        <thead>
+                            <tr>
+                                <th>Issue</th>
+                                <th>Location</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    {% for issue in recent_issues %}
+                    <tr>
+                        <td>{{ issue.category }}</td>
+                        <td>{{ issue.location_name }}</td>
+                        <td>{{ issue.created_at|date:'M d, Y' }}</td>
+                        <td>
+                            {% if issue.status == 'Resolved' %}
+                                <span class="badge badge-resolved">{{ issue.status }}</span>
+                            {% elif issue.status == 'In Progress' or issue.status == 'Assigned' %}
+                                <span class="badge badge-inprogress">{{ issue.status }}</span>
+                            {% else %}
+                                <span class="badge badge-pending">{{ issue.status }}</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="empty-state">No recent reports yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</div>
+</section>
+<script>
+    const reportChartLabels = {{ chart_labels_json|safe }};
+    const reportChartData = {{ chart_data_json|safe }};
+    const reportChartType = 'line';
+</script>
+{% endblock %}

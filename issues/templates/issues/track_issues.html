@@ -1,0 +1,63 @@
+{% extends 'issues/base.html' %}
+{% block content %}
+<section class="page-section">
+    <div class="container">
+        <div class="section-header section-header-flex">
+            <div>
+                <h2>Track Your Reports</h2>
+                <p>Follow all issues you've reported and check their current status in one place.</p>
+            </div>
+            <div class="track-links">
+                <a class="button button-secondary" href="{% url 'dashboard' %}">View Dashboard</a>
+                <a class="button button-primary" href="{% url 'report_issue' %}">Report New Issue</a>
+            </div>
+        </div>
+        <div class="stats-grid track-stats-grid">
+            <div class="metric-card">
+                <span>Total</span>
+                <h3>{{ total }}</h3>
+            </div>
+            <div class="metric-card">
+                <span>Pending</span>
+                <h3>{{ pending }}</h3>
+            </div>
+            <div class="metric-card">
+                <span>In Progress</span>
+                <h3>{{ in_progress }}</h3>
+            </div>
+            <div class="metric-card">
+                <span>Resolved</span>
+                <h3>{{ resolved }}</h3>
+            </div>
+        </div>
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Issue Type</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issues %}
+                    <tr>
+                        <td>{{ issue.id }}</td>
+                        <td>{{ issue.category }}</td>
+                        <td>{{ issue.location_name }}</td>
+                        <td>{{ issue.created_at|date:'M d, Y' }}</td>
+                        <td>{{ issue.status }}</td>
+                        <td><a class="button button-sm" href="{% url 'track_detail' issue.id %}">View Details and Track Progress</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" class="empty-state">No reports submitted yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

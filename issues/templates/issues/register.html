@@ -1,0 +1,25 @@
+{% extends 'issues/base.html' %}
+{% block content %}
+<section class="page-section center-page">
+    <div class="container card-panel auth-panel">
+        <div class="panel-heading">
+            <h2>Create a new account</h2>
+            <p>Register now to submit reports and track neighborhood requests.</p>
+        </div>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <label>Username</label>
+            {{ form.username }}
+            <label>Email</label>
+            {{ form.email }}
+            <label>Password</label>
+            {{ form.password1 }}
+            <label>Confirm Password</label>
+            {{ form.password2 }}
+            <button type="submit" class="button button-primary full-width">Register</button>
+        </form>
+        <p class="auth-footer">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</section>
+{% endblock %}

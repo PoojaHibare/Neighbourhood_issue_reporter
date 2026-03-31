@@ -1,0 +1,75 @@
+{% extends 'issues/base.html' %}
+{% block content %}
+<section class="page-section">
+    <div class="container">
+        <div class="section-header admin-header">
+            <div>
+                <h2>Admin Issue Management</h2>
+                <p>Review reports, assign departments, verify issues, and update priorities.</p>
+            </div>
+        </div>
+        <div class="table-card admin-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Type</th>
+                        <th>Location</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for issue in issues %}
+                    <tr>
+                        <td>{{ issue.id }}</td>
+                        <td>{{ issue.category }}</td>
+                        <td>{{ issue.location_name }}</td>
+                        <td>{{ issue.created_at|date:'M d, Y' }}</td>
+                        <td>{{ issue.status }}</td>
+                        <td>{{ issue.priority }}</td>
+                        <td>
+                            <form method="post" class="admin-actions">
+                                {% csrf_token %}
+                                <input type="hidden" name="issue_id" value="{{ issue.id }}">
+                                <div class="action-row">
+                                    <button type="submit" name="action" value="verify" class="button button-sm">Verify</button>
+                                    <button type="submit" name="action" value="reject" class="button button-sm button-secondary">Reject</button>
+                                </div>
+                                <div class="action-row">
+                                    <select name="department" class="input-field small-field">
+                                        <option value="">Department</option>
+                                        <option value="Road Department" {% if issue.category == 'Pothole' %}selected{% endif %}>Road Department</option>
+                                        <option value="Electricity Department" {% if issue.category == 'Streetlight' %}selected{% endif %}>Electricity Department</option>
+                                        <option value="Water Supply Department" {% if issue.category == 'Water Leakage' %}selected{% endif %}>Water Supply Department</option>
+                                        <option value="Garbage Collection Department" {% if issue.category == 'Garbage' %}selected{% endif %}>Garbage Collection Department</option>
+                                    </select>
+                                    <button type="submit" name="action" value="assign" class="button button-sm">Assign</button>
+                                </div>
+                                <div class="action-row">
+                                    <select name="status" class="input-field small-field">
+                                        {% for value, label in status_choices %}
+                                        <option value="{{ value }}" {% if issue.status == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <select name="priority" class="input-field small-field">
+                                        {% for value, label in priority_choices %}
+                                        <option value="{{ value }}" {% if issue.priority == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button type="submit" name="action" value="update_status" class="button button-sm">Update</button>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="7" class="empty-state">No issues have been reported yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

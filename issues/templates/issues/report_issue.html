@@ -1,0 +1,49 @@
+{% extends 'issues/base.html' %}
+{% block content %}
+<section class="page-section">
+    <div class="container issue-card">
+        <div class="panel-heading">
+            <h2>Report an Issue</h2>
+            <p>Help your neighborhood by sharing the location and details of the issue.</p>
+        </div>
+        <div class="issue-grid">
+            <div class="issue-form-panel">
+                <form method="post" enctype="multipart/form-data" class="issue-form">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="field-group">
+                            <label>Category</label>
+                            {{ form.category }}
+                        </div>
+                        <div class="field-group">
+                            <label>Description</label>
+                            {{ form.description }}
+                        </div>
+                        <div class="field-group">
+                            <label>Location name</label>
+                            {{ form.location_name }}
+                        </div>
+                        <div class="field-group">
+                            <label>Image upload (optional)</label>
+                            {{ form.image }}
+                        </div>
+                    </div>
+                    <button type="submit" class="button button-primary full-width">Submit Issue</button>
+                </form>
+                <div class="report-links">
+                    <a class="button button-secondary" href="{% url 'track_issues' %}">View Track Page</a>
+                    <a class="button button-secondary" href="{% url 'dashboard' %}">View Dashboard</a>
+                </div>
+            </div>
+            <div class="map-wrapper">
+                <div class="map-card-heading">
+                    <h3>Map location</h3>
+                    <p>Choose the exact spot to help responders find the issue faster.</p>
+                </div>
+                <div id="map" class="map-frame" style="height: 300px; border-radius: 10px;"></div>
+                <p class="map-hint">Click anywhere on the map to place a marker and help us locate the issue.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
